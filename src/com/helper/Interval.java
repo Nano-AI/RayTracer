@@ -1,4 +1,4 @@
-import com.sun.jdi.IntegerValue;
+package com.helper;
 
 public class Interval {
     public double min, max;

@@ -1,4 +1,8 @@
+package com.objects;
+
 import java.util.ArrayList;
+
+import com.helper.*;
 
 public class HittableList implements Hittable {
     ArrayList<Hittable> objects;
@@ -30,7 +34,6 @@ public class HittableList implements Hittable {
                 hitAnything = true;
                 closest = tempRec.t;
                 rec.set(tempRec);
-                rec = tempRec;
             }
         }
         return hitAnything;

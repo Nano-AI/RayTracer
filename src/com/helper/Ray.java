@@ -1,3 +1,5 @@
+package com.helper;
+
 public class Ray {
     private Vector3 origin;
     private Vector3 direction;
@@ -20,5 +22,10 @@ public class Ray {
 
     public Vector3 at(double t) {
         return Vector3.add(origin, Vector3.multiply(t, direction));
+    }
+
+    public void set(Ray ray) {
+        this.origin = ray.origin;
+        this.direction = ray.direction;
     }
 }

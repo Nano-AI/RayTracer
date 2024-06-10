@@ -1,3 +1,5 @@
+package com.window;
+
 import javax.swing.*;
 
 public class ProgressBar extends JPanel {

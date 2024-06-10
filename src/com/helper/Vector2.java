@@ -1,3 +1,5 @@
+package com.helper;
+
 public class Vector2 {
     private int x;
     private int y;

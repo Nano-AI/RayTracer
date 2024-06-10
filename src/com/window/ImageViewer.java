@@ -1,3 +1,7 @@
+package com.window;
+
+import com.helper.Vector2;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;

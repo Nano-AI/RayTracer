@@ -1,9 +1,16 @@
+package com.objects;
+
+import com.helper.*;
+import com.materials.*;
+
 public class Sphere implements Hittable {
     private Vector3 center;
     private double radius;
-    public Sphere(Vector3 center, double radius) {
+    public Material mat;
+    public Sphere(Vector3 center, double radius, Material mat) {
         this.center = center;
         this.radius = radius;
+        this.mat = mat;
     }
 
     @Override
@@ -37,6 +44,7 @@ public class Sphere implements Hittable {
         rec.t = root;
         rec.point = r.at(rec.t);
         rec.normal = Vector3.divide(Vector3.subtract(rec.point, center), radius);
+        rec.mat = this.mat;
         Vector3 outwardNormal = Vector3.divide(Vector3.subtract(rec.point, center), radius);
         rec.setFaceNormal(r, outwardNormal);
         // return the solution

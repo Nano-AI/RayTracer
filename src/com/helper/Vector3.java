@@ -1,5 +1,6 @@
+package com.helper;
+
 import java.awt.*;
-import java.util.Vector;
 
 public class Vector3 {
     Interval colorRange = new Interval(0.000, 0.999);
@@ -15,6 +16,10 @@ public class Vector3 {
         e[0] = x;
         e[1] = y;
         e[2] = z;
+    }
+
+    public static Vector3 multiply(Vector3 v, Vector3 u) {
+        return new Vector3(v.getX() * u.getX(), v.getY() * u.getY(), v.getZ() * u.getZ());
     }
 
     public double getX() {
@@ -102,6 +107,10 @@ public class Vector3 {
         return new Vector3(v1.getX() + v2.getX(), v1.getY() + v2.getY(), v1.getZ() + v2.getZ());
     }
 
+    public static Vector3 add(Vector3 v1, double t) {
+        return new Vector3(v1.getX() + t, v1.getY() + t, v1.getZ() + t);
+    }
+
     public static Vector3 subtract(Vector3 v1, Vector3 v2) {
         return new Vector3(v1.getX() - v2.getX(), v1.getY() - v2.getY(), v1.getZ() - v2.getZ());
     }
@@ -145,6 +154,19 @@ public class Vector3 {
         }
     }
 
+    public static Vector3 randomUnitVector() {
+        return unitVector(randomInUnitSphere());
+    }
+
+    public static Vector3 randomOnHemisphere(Vector3 normal) {
+        Vector3 onUnitSphere = randomUnitVector();
+        if (dot(onUnitSphere, normal) > 0.0) {
+            return onUnitSphere;
+        } else {
+            return Vector3.multiply(-1, onUnitSphere);
+        }
+    }
+
     public Color toColor() {
         return new Color((int) (255.999 * colorRange.clamp(this.getX())), (int) (255.999 * colorRange.clamp(this.getY())), (int) (255.999 * colorRange.clamp(this.getZ())));
     }
@@ -169,5 +191,35 @@ public class Vector3 {
         );
     }
 
+    public boolean nearZero() {
+        double s = 1e-8;
+        return Math.abs(e[0]) < s && Math.abs(e[1]) < s && Math.abs(e[2]) < s;
+    }
 
+    public static Vector3 reflect(Vector3 v, Vector3 n) {
+        return Vector3.subtract(v, Vector3.multiply(n, 2 * Vector3.dot(v, n)));
+    }
+
+    public void set(Vector3 v) {
+        this.setX(v.getX());
+        this.setY(v.getY());
+        this.setZ(v.getZ());
+    }
+
+    // Snell's law: https://raytracing.github.io/books/RayTracingInOneWeekend.html#dielectrics/snell'slaw
+    public static Vector3 refract(Vector3 uv, Vector3 n, double etai_over_etat) {
+        double cos_theta = Math.min(Vector3.dot(Vector3.multiply(-1, uv), n), 1.0);
+        Vector3 r_out_perp = Vector3.multiply(etai_over_etat, Vector3.add(uv, Vector3.multiply(cos_theta, n)));
+        Vector3 r_out_parallel = Vector3.multiply(Math.sqrt(Math.abs(1.0 - r_out_perp.lengthSquared())), Vector3.multiply(-1, n));
+        return Vector3.add(r_out_parallel, r_out_perp);
+    }
+
+    public static Vector3 randomInUnitDisk() {
+        while (true) {
+            Vector3 p = new Vector3(Utils.randomDouble(-1, 1), Utils.randomDouble(-1, 1), 0);
+            if (p.lengthSquared() < 1) {
+                return p;
+            }
+        }
+    }
 }

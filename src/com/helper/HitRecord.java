@@ -1,8 +1,13 @@
+package com.helper;
+
+import com.materials.Material;
+
 public class HitRecord {
     public Vector3 point;
     public Vector3 normal;
     public double t;
     public boolean frontFace;
+    public Material mat;
 
     // pick the right normal; outside or inside to have it always point outwards
     public void setFaceNormal(Ray r, Vector3 outwardNormal) {
@@ -20,5 +25,6 @@ public class HitRecord {
         this.normal = tempRec.normal;
         this.point = tempRec.point;
         this.t = tempRec.t;
+        this.mat = tempRec.mat;
     }
 }
