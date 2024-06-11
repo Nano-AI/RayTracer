@@ -25,7 +25,7 @@ public class Main {
         ImageViewer viewer = new ImageViewer(imageWidth, imageHeight);
         HittableList world = new HittableList();
 
-        Material material_center = new Lambertian(new Vector3(0.1, 0.2, 0.5));
+        Material material_center = new Lambertian(Utils.toColorVector(new Color(255, 0, 0)));
         Material material_left = new Dielectric(1.5);
         Material material_bubble = new Dielectric(1.00 / 1.50);
         Material material_right = new Metal(new Vector3(0.8, 0.6, 0.2), 0.1);
@@ -35,15 +35,15 @@ public class Main {
         world.add(new Sphere(new Vector3(0, -1000.5, -1), -1000, material_ground));
 
         world.add(new Sphere(new Vector3(1, 0, -1), 0.5, material_left));
-        world.add(new Sphere(new Vector3(0, 0, -3), 0.5, material_center));
+        world.add(new Sphere(new Vector3(0, 0.25, -3), 0.5, material_center));
         world.add(new Sphere(new Vector3(-1, 0, -5), 0.5, material_right));
 
         Camera cam = new Camera(viewer);
         cam.aspect_ratio = aspectRatio;
         cam.image_height = imageHeight;
         cam.image_width = imageWidth;
-         cam.samples_per_pixel = 50;
-//        cam.samples_per_pixel = 10;
+//         cam.samples_per_pixel = 50;
+        cam.samples_per_pixel = 10;
         cam.max_depth = 10;
 
         cam.vfov = 90;
