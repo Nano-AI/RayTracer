@@ -25,37 +25,25 @@ public class Main {
         ImageViewer viewer = new ImageViewer(imageWidth, imageHeight);
         HittableList world = new HittableList();
 
-        Material material_ground = new Lambertian(new Vector3(0.0, 0.0, 0));
-        world.add(new Sphere(new Vector3(0, -100.5, -1.0), 100.0, material_ground));
-        for (double i = -1.0; i < 3; i++) {
-            for (double j = -1.0; j < 3; j++) {
-                double t = Math.random();
-                Material mat;
-                if (t < 1.0 / 3.0) {
-                    mat = new Lambertian(Vector3.random());
-                } else if (t < 2.0 / 3.0) {
-                    mat = new Dielectric(Utils.randomDouble(0.001, 2));
-                } else {
-                    mat = new Metal(Vector3.random(), Math.random());
-                }
-                world.add(new Sphere(new Vector3(i, j, -1), Utils.randomDouble(0.1, 0.3), mat));
-            }
-        }
-//        Material material_center = new Lambertian(new Vector3(0.1, 0.2, 0.5));
-//        Material material_left = new Dielectric(1.5);
-//        Material material_bubble = new Dielectric(1.00 / 1.50);
-//        Material material_right = new Metal(new Vector3(0.8, 0.6, 0.2), 0.1);
-//
-//        world.add(new Sphere(new Vector3(1, 0, -1), 0.5, material_center));
-//        world.add(new Sphere(new Vector3(0, 0, -3), 0.5, material_center));
-//        world.add(new Sphere(new Vector3(-1, 0, -5), 0.5, material_center));
+        Material material_center = new Lambertian(new Vector3(0.1, 0.2, 0.5));
+        Material material_left = new Dielectric(1.5);
+        Material material_bubble = new Dielectric(1.00 / 1.50);
+        Material material_right = new Metal(new Vector3(0.8, 0.6, 0.2), 0.1);
+
+        Material material_ground = new Lambertian(Utils.toColorVector(new Color(124, 252, 0)));
+
+        world.add(new Sphere(new Vector3(0, -1000.5, -1), -1000, material_ground));
+
+        world.add(new Sphere(new Vector3(1, 0, -1), 0.5, material_left));
+        world.add(new Sphere(new Vector3(0, 0, -3), 0.5, material_center));
+        world.add(new Sphere(new Vector3(-1, 0, -5), 0.5, material_right));
 
         Camera cam = new Camera(viewer);
         cam.aspect_ratio = aspectRatio;
         cam.image_height = imageHeight;
         cam.image_width = imageWidth;
-//         cam.samples_per_pixel = 50;
-        cam.samples_per_pixel = 10;
+         cam.samples_per_pixel = 50;
+//        cam.samples_per_pixel = 10;
         cam.max_depth = 10;
 
         cam.vfov = 90;
